@@ -28,7 +28,6 @@ const Layout = ({ title, children }) => {
       <SideNav isSidebarOpen={isSidebarOpen} handleClick={handleClick} />
       <TopNav toggleTheme={toggleTheme} />
       <div className="content">
-        <h1>{title}</h1>
         {children}
       </div>
     </div>
