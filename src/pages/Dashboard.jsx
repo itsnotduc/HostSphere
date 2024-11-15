@@ -1,17 +1,14 @@
 import React from 'react';
 import DashboardHeader from '../components/DashboardHeader';
-import Sidebar from '../components/SideNav';
-import Topbar from '../components/TopNav';
+import DashboardChart from '../components/DashboardChart';
 import '../App.css';
 
 const Dashboard = () => {
   return (
-    <div className="dashboard-layout">
-      <div className="main-content flex flex-col w-full">
-        <div className="content">
-          <DashboardHeader />
-          {/* Add Dashboard widgets and components here */}
-        </div>
+    <div className="dashboard-layout flex flex-col w-full p-4">
+      <DashboardHeader />
+      <div className="chart-container mt-4">
+        <DashboardChart />
       </div>
     </div>
   );
