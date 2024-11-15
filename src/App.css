@@ -2,20 +2,50 @@
 
 @keyframes gradient {
   0% { background-position: 0% 0%; }
-  50% { background-position: 100% 100%; }
+  10% { background-position: 30% 40%; }
+  20% { background-position: 70% 20%; }
+  30% { background-position: 50% 80%; }
+  40% { background-position: 90% 50%; }
+  50% { background-position: 20% 30%; }
+  60% { background-position: 80% 70%; }
+  70% { background-position: 40% 90%; }
+  80% { background-position: 60% 10%; }
+  90% { background-position: 10% 60%; }
   100% { background-position: 0% 0%; }
 }
 
-/* Modern color palette */
+
+
+/* Modern and minimalist bright color palette */
 :root {
-  --bg-primary: #1a1b2e;     /* Dark blue background */
-  --bg-secondary: #21243d;   /* Slightly lighter blue for navbar/sidebar */
-  --text-primary: #e4e6f1;   /* Light gray for text */
-  --accent-1: #4f46e5;       /* Indigo */
-  --accent-2: #8b5cf6;       /* Purple */
-  --accent-3: #3b82f6;       /* Blue */
-  --hover-bg: rgba(255, 255, 255, 0.08);
+  --bg-primary: #f5f5f5;     /* Light gray background */
+  --bg-secondary: #ffffff;   /* White for navbar/sidebar */
+  --text-primary: #333333;   /* Dark gray for text */
+  --accent-1: #0077ff;       /* Bright blue */
+  --accent-2: #ff4db8;       /* Vivid pink */
+  --accent-3: #00c8ff;       /* Light cyan blue */
+  --hover-bg: rgba(0, 0, 0, 0.08); /* Light black for hover */
 }
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg-primary: #1a1a1a;     /* Dark background */
+  --bg-secondary: #333333;   /* Dark gray for navbar/sidebar */
+  --text-primary: #f5f5f5;   /* Light gray for text */
+  --accent-1: #0077ff;       /* Bright blue */
+  --accent-2: #ff4db8;       /* Vivid pink */
+  --accent-3: #00c8ff;       /* Light cyan blue */
+  --hover-bg: rgba(255, 255, 255, 0.08); /* Light white for hover */
+}
+
+/* Invert icons in dark mode */
+[data-theme="dark"] .sidebar-icon,
+[data-theme="dark"] .sidebar-logo,
+[data-theme="dark"] .arrow-icon {
+  filter: invert(1);
+}
+
+
 
 body {
   margin: 0;
@@ -31,35 +61,6 @@ body {
   100% { transform: rotate(90deg); }
 }
 
-/* Ensure hamburger icon is above sidebar */
-.navbar-icon {
-  width: 40px;
-  height: 40px;
-  filter: invert(0.9); /* Lighter icons */
-  object-fit: contain;
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  left: 2rem;
-  z-index: 300; /* Ensure hamburger is above sidebar */
-  transition: transform 0.4s ease;
-  margin-left: 12.5rem;
-}
-.navbar-icon:hover{
-  transform: scale(1.2);
-}
-
-.navbar-icon.clicked {
-  transform: rotate(90deg);
-}
-
-/* Move hamburger to right edge when sidebar open */
-.sidebar.open ~ .navbar .navbar-icon {
-  transform: translateX(210px); /* Increase from previous value */
-}
 
 /* Ensure navbar is below sidebar */
 .navbar {
@@ -73,18 +74,18 @@ body {
   height: 100px;
   box-sizing: border-box;
   position: relative;
-  z-index: 100; /* Ensure navbar is below sidebar */
+  z-index: 100;
 }
 
 .navbar a {
-  color: white;
+  color: var(--text-primary);
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   font-size: 18px;
-  padding: 0.5rem;
+  padding: 1rem;
   border-radius: 40px;
   position: relative;
   z-index: 1;
@@ -96,17 +97,25 @@ body {
   gap: 10px;
   margin-left: 8rem;
 }
+.content {
+  margin-left: 100px; /* Adjust margin to match sidebar width */
+  padding: 1rem;
+  flex-grow: 1;
+}
 
 .navbar a::before {
   content: '';
   position: absolute;
-  inset: -4px;
+  top: -1px;
+  left: -20px;
+  right: -20px;
+  bottom: -1px;  
   background: linear-gradient(45deg, var(--accent-1), var(--accent-2), var(--accent-3));
   background-size: 300% 300%;
   background-position: 0 0;
   border-radius: inherit;
   z-index: -1;
-  animation: gradient 1.5s linear infinite;
+  animation: gradient 15s linear infinite;
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
   -webkit-mask: 
@@ -114,12 +123,12 @@ body {
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  padding: 4px;
+  padding: 3px;
 }
 
 .navbar a:hover {
   transform: scale(1.1);
-  color: white;
+  color: var(--text-primary);
   text-decoration: none;
   outline: none;
 }
@@ -129,9 +138,7 @@ body {
 }
 
 
-.navbar-icon + a {
-  margin-left: 0;
-}
+
 
 /* Ensure sidebar is above navbar */
 .sidebar {
@@ -149,17 +156,19 @@ body {
   left: 0;
 }
 
+/* App.css */
+
 .sidebar ul {
   list-style: none;
   padding: 0;
   margin: 0;
   flex-direction: column;
   display: flex;
+  margin-top: 1rem;
+  margin-left: 0px;
   gap: 2rem;
-  margin-top: 1vh;
-  overflow: hidden;
-
 }
+
 .sidebar-logo-text {
   color: var(--text-primary);
   opacity: 0;
@@ -168,19 +177,18 @@ body {
   margin-left: -47px;
   cursor: pointer;
 }
+
 .sidebar li {
-  padding: 0.5rem 2rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  transition: all 0.5s ease;
-  position: relative;
+  gap: 1rem; /* Add space between icon and text */
+  padding: 0.7rem 1rem;
+  transition: all 0.3s ease;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 8px;
 }
 
-.sidebar.open li:hover {
-  transform: scale(1.1);
+.sidebar li:hover {
   background-color: var(--hover-bg);
 }
 
@@ -202,29 +210,27 @@ body {
 }
 
 .sidebar a {
-  color: white;
+  color: var(--text-primary);
   text-decoration: none;
   font-size: 1.2rem;
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
 .sidebar-icon {
-  filter: invert(0.9);
   width: 25px;
   height: 25px;
   object-fit: contain;
-  position: relative;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .sidebar:not(.open) .sidebar-icon {
-  transform: translateX(210px);
+  transform: translateX(218px);
   position: relative;
   z-index: 2;
 }
-
-
 
 .sidebar:not(.open) li:hover {
   background-color: transparent;
@@ -232,53 +238,26 @@ body {
   transform: none;
 }
 
-.sidebar-icon {
-  filter: invert(0.9);
-  width: 25px;
-  height: 25px;
-  object-fit: contain;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-
-.sidebar:not(.open) .sidebar-icon {
-  transform: translateX(208px);
-  position: relative;
-  z-index: 2;
-}
-
-
-
-
-
-.sidebar:not(.open) .sidebar-icon {
-  transform: translateX(208px);
-  position: relative;
-  z-index: 100;
-}
-
-.sidebar:not(.open) .link-text {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
 .sidebar-footer {
   padding: 1.5rem;
   margin-top: 30vh;
   border-top: 1px solid var(--hover-bg);
-  color: white;
+  color: var(--text-primary);
   font-size: 1rem;
-  align-items: center;
   display: flex;
   cursor: pointer;
   transition: all 0.3s ease;
   position: absolute;
   bottom: 0px;
-
 }
 
-.sidebar-footer:hover{
+.footer-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sidebar-footer:hover {
   background-color: var(--hover-bg);
 }
 
@@ -289,11 +268,13 @@ body {
   transition: transform 0.3s ease;
 }
 
-.sidebar:not(.open) .sidebar-footer div {
+.sidebar:not(.open) .user-text {
   opacity: 0;
-  transition: opacity 0.3s ease;
 }
-
+.sidebar:not(.open) .sidebar-footer .sidebar-icon{
+  transform: translateX(0px);
+  opacity: 0;
+}
 .sidebar-footer:hover {
   background-color: var(--hover-bg);
 }
@@ -307,20 +288,19 @@ body {
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 5rem;
   justify-content: center;
 }
 
 .sidebar-logo {
-  filter: invert(1);
   width: 35px;
   height: 35px;
   margin: 2rem;
   transition: all 0.3s ease;
   position: relative;
   z-index: 2;
-  opacity: 0; /* Start hidden */
-  margin-left: 15px;
+  opacity: 1;
+  margin-left: 29px;
   margin-top: 20px;
   cursor: pointer;
 }
@@ -334,6 +314,31 @@ body {
 
 /* Move logo when sidebar is collapsed */
 .sidebar:not(.open) .sidebar-logo {
-  transform: translateX(208px);
-  opacity: 0;
+  transform: translateX(185px);
+}
+.menu-button {
+  position: absolute;
+  top: 28rem;
+  right: -1.2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  border-radius: 20px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--bg-secondary);
+}
+
+.arrow-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+  filter: invert(0);
+
+}
+
+.sidebar.open .menu-button .arrow-icon {
+  transform: rotate(180deg);
 }
